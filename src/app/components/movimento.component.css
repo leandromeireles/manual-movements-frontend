@@ -1,0 +1,45 @@
+.form-mat {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.row {
+    display: flex;
+    column-gap: 1rem;
+    gap: 1rem;
+}
+
+.half {
+    max-width: 49%;
+}
+
+
+.field {
+    flex: 1;
+}
+
+.field.full {
+    flex: 1;
+}
+
+.button-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem; /* Espaço horizontal entre os botões */
+    margin-top: 0.25rem;
+    width: 100%;
+    padding-right: 25.50rem; /* Opcional: empurra os botões um pouco para a esquerda */
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-right: 1rem; /* desloca levemente para a direita */
+    margin-top: 1rem;
+}
+
+
+
