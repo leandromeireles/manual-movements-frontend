@@ -24,7 +24,6 @@ export class MovimentoComponent implements OnInit {
     ngOnInit(): void {
         this.listarMovimentos();
         this.carregarProdutos();
-        this.carregarCosifs();
     }
 
     listarMovimentos() {
@@ -35,9 +34,18 @@ export class MovimentoComponent implements OnInit {
         this.produtoService.listarProdutos().subscribe(data => this.produtos = data);
     }
 
-    carregarCosifs() {
-        this.cosifService.listarCosifs().subscribe(data => this.cosifs = data);
+    carregarCosifsPorProduto() {
+        if (this.movimento.codProduto) {
+            this.cosifService.listarCosifsPorProduto(this.movimento.codProduto).subscribe(cosifs => {
+                this.cosifs = cosifs;
+            });
+        }
     }
+
+    onProdutoChange() {
+        this.carregarCosifsPorProduto();
+    }
+
 
     criarMovimento() {
         const { numeroLancamento, usuario, ...movimentoSemCamposGerados } = this.movimento;
@@ -87,12 +95,40 @@ export class MovimentoComponent implements OnInit {
     ];
 
 
-    permitirSomenteNumeros(event: KeyboardEvent) {
+    validarMesInput(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        let valor = input.value;
+
+        // Remove caracteres não numéricos
+        valor = valor.replace(/\D/g, '');
+
+        // Limita a no máximo 2 dígitos
+        if (valor.length > 2) {
+            valor = valor.substring(0, 2);
+        }
+
+        // Só valida se tiver 2 dígitos
+        if (valor.length === 2) {
+            const numero = Number(valor);
+            if (numero < 1 || numero > 12) {
+                valor = '';
+            }
+        }
+
+        input.value = valor;
+        this.movimento.mes = valor;
+    }
+
+
+
+    permitirSomenteNumeros(event: KeyboardEvent): void {
         const charCode = event.key.charCodeAt(0);
+        // Permite apenas caracteres entre '0' (48) e '9' (57)
         if (charCode < 48 || charCode > 57) {
             event.preventDefault();
         }
     }
+
 
 
 }

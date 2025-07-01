@@ -10,7 +10,7 @@
                     [(ngModel)]="movimento.mes"
                     name="mes"
                     required
-                    (keypress)="permitirSomenteNumeros($event)"
+                    (input)="validarMesInput($event)"
                     [disabled]="!modoEdicao"
             />
         </mat-form-field>
@@ -30,27 +30,24 @@
     </div>
 
     <div class="row">
-        <!-- Produto -->
-        <mat-form-field appearance="outline" class="field">
+        <mat-form-field appearance="fill">
             <mat-label>Produto</mat-label>
-            <mat-select [(ngModel)]="movimento.codProduto" name="produto" [disabled]="!modoEdicao">
-                <mat-option value="">--Selecione--</mat-option>
+            <mat-select [(ngModel)]="movimento.codProduto" (selectionChange)="onProdutoChange()" [disabled]="!modoEdicao">
                 <mat-option *ngFor="let p of produtos" [value]="p.codProduto">
                     {{ p.descricao }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
 
-        <!-- Cosif -->
-        <mat-form-field appearance="outline" class="field">
+        <mat-form-field appearance="fill">
             <mat-label>Cosif</mat-label>
-            <mat-select [(ngModel)]="movimento.codCosif" name="cosif" [disabled]="!modoEdicao">
-                <mat-option value="">--Selecione--</mat-option>
+            <mat-select [(ngModel)]="movimento.codCosif" [disabled]="!modoEdicao">
                 <mat-option *ngFor="let c of cosifs" [value]="c.codCosif">
-                    {{ c.codCosif }} - ({{ c.classificacao }})
+                    {{ c.codCosif }} - {{ c.classificacao }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
+
 
 
     </div>
@@ -130,7 +127,7 @@
     <!-- Valor -->
     <ng-container matColumnDef="valor">
         <th mat-header-cell *matHeaderCellDef> Valor</th>
-        <td mat-cell *matCellDef="let m"> {{ m.valor | number:'1.3-3' }}</td>
+        <td mat-cell *matCellDef="let m"> {{ m.valor | currency:'BRL':'symbol':'1.2-2' }} </td>
     </ng-container>
 
     <!-- Cabeçalhos e Células -->
